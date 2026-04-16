@@ -185,15 +185,12 @@ catch (Exception ex)
 {
     Console.WriteLine("Migration failed: " + ex.ToString());
 }
-if (appServices.Environment.IsDevelopment())
+appServices.UseSwagger();
+appServices.UseSwaggerUI(options =>
 {
-    appServices.UseSwagger();
-    appServices.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Quantity Measurement API v1");
-        options.RoutePrefix = "swagger";
-    });
-}
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Quantity Measurement API v1");
+    options.RoutePrefix = "swagger";
+});
 //appServices.UseHttpsRedirection();
 appServices.UseAuthentication();
 appServices.UseAuthorization();
