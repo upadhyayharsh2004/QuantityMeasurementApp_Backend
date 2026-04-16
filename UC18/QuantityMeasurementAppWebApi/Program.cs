@@ -199,5 +199,7 @@ appServices.MapControllers();
 
 appServices.MapHealthChecks("/health");
 
+appServices.MapGet("/", () => "Quantity Measurement API is running 🚀");
+
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 appServices.Run($"http://0.0.0.0:{port}");
