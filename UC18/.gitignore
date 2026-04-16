@@ -1,0 +1,10 @@
+# Ignore console app anywhere
+**/QuantityMeasurementApp/
+
+# Ignore appsettings
+**/appsettings.json
+**/appsettings.*.json
+
+# Build folders
+**/bin/
+**/obj/
