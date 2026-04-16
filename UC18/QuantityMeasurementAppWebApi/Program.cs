@@ -18,9 +18,22 @@ using QuantityMeasurementWebApi.Middleware;
 
 var builderWebApplication = WebApplication.CreateBuilder(args);
 
-var connectionString =
-    builderWebApplication.Configuration.GetConnectionString("DefaultConnection")
-    ?? Environment.GetEnvironmentVariable("DATABASE_URL");
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+string connectionString;
+
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+
+    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]}";
+}
+else
+{
+    connectionString = builderWebApplication.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new Exception("Database connection string not found");
+}
 
 builderWebApplication.Services.AddDbContext<DatabaseAppContext>(
     options => options.UseNpgsql(
